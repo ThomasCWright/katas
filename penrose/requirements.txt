@@ -1,1 +1,3 @@
-kivy==2.0.0.rc1
+kivy>=2.0
+pytest
+pytest_mock
