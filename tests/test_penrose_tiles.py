@@ -100,3 +100,12 @@ class TestPenroseTiles:
         index=1
         test_tile.change_vertex_at_index_to_position(index=index,new_position=new_position)
         assert test_tile.vertices[index] == new_position
+
+    def test_tile_internal_angle_at_vertex(self):
+        '''test internal angle at vertex'''
+        test_tile = Tile()
+        assert test_tile.angles == [90.0,90.0,90.0,90.0]
+
+        test_tile.add_vertex()
+        assert test_tile.angles == [108.0,108.0,108.0,108.0,108.0]
+
