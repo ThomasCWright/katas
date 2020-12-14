@@ -36,3 +36,7 @@ class Tile:
         if self.sides > 3: 
             self.vertices.remove(self.vertices[-1])
             self.sides = len(self.vertices)
+
+    def change_vertex_at_index_to_position(self, index, new_position):
+        '''change vertes at index to new_position'''
+        self.vertices[index] = new_position

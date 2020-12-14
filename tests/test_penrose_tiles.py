@@ -88,10 +88,15 @@ class TestPenroseTiles:
         test_tile.remove_vertex()
         assert len(test_tile.vertices) == test_tile.sides
 
-    def test_tile_vertices_change(self):
+    def test_tile_change_vertex_at_index_to_position(self):
         '''test to change vertex'''
         test_tile = Tile()
         new_position=(0.1,0.1)
         index=0
-        test_tile.change_vertex(index=index,new_position=new_position)
+        test_tile.change_vertex_at_index_to_position(index=index,new_position=new_position)
+        assert test_tile.vertices[index] == new_position
+
+        new_position=(0.9,0.1)
+        index=1
+        test_tile.change_vertex_at_index_to_position(index=index,new_position=new_position)
         assert test_tile.vertices[index] == new_position
