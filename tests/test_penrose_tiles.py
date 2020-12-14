@@ -50,17 +50,48 @@ class TestPenroseTiles:
         assert test_tile.line_colour == [0,255,0,1]
 
     def test_tile_init_sides(self):
-        '''test for number of sides'''
+        '''test init for number of sides'''
         test_tile = Tile()
         assert test_tile.sides == 4
 
-        test_tile.sides = 5
+    def test_tile_sides_add(self):
+        '''test side add for number of sides'''
+        test_tile = Tile()
+    
+        test_tile.add_side()
         assert test_tile.sides == 5
 
-    def test_tile_vertices(self):
+    def test_tile_sides_remove(self):
+        '''test side remove for number of sides'''
+
+        test_tile = Tile()
+    
+        test_tile.remove_side()
+        assert test_tile.sides == 3
+
+        test_tile.remove_side()
+        assert test_tile.sides == 3
+
+    def test_tile_vertices_add(self):
         '''test tile vertices'''
         test_tile = Tile()
         assert len(test_tile.vertices) == test_tile.sides
 
-        test_tile.sides = 5
+        test_tile.add_vertex()
         assert len(test_tile.vertices) == test_tile.sides
+
+    def test_tile_vertices_remove(self):
+        '''test tile vertices'''
+        test_tile = Tile()
+        assert len(test_tile.vertices) == test_tile.sides
+
+        test_tile.remove_vertex()
+        assert len(test_tile.vertices) == test_tile.sides
+
+    def test_tile_vertices_change(self):
+        '''test to change vertex'''
+        test_tile = Tile()
+        new_position=(0.1,0.1)
+        index=0
+        test_tile.change_vertex(index=index,new_position=new_position)
+        assert test_tile.vertices[index] == new_position
