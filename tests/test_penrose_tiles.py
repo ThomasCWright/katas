@@ -53,3 +53,14 @@ class TestPenroseTiles:
         '''test for number of sides'''
         test_tile = Tile()
         assert test_tile.sides == 4
+
+        test_tile.sides = 5
+        assert test_tile.sides == 5
+
+    def test_tile_vertices(self):
+        '''test tile vertices'''
+        test_tile = Tile()
+        assert len(test_tile.vertices) == test_tile.sides
+
+        test_tile.sides = 5
+        assert len(test_tile.vertices) == test_tile.sides
