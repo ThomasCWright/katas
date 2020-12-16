@@ -1,6 +1,6 @@
 import unittest
 
-import penrose.main
+# import penrose.main
 from penrose.penrose_tiles import Tile
 import pytest
 from pytest_mock import mock
@@ -11,43 +11,43 @@ class TestPenroseTiles:
     test suite for Penrose tiles
     '''
 
-    def test_penrose_main_init(self):
-        '''test kivy app starts and keeps running'''
+    # def test_penrose_main_init(self):
+    #     '''test kivy app starts and keeps running'''
 
-        with mock.patch.object(penrose, "main", return_value=42):
-            with mock.patch.object(penrose, "__name__", "__main__"):
-                assert penrose.main() == 42
+    #     with mock.patch.object(penrose, "main", return_value=42):
+    #         with mock.patch.object(penrose, "__name__", "__main__"):
+    #             assert penrose.main() == 42
 
-        # with mock.patch.object(penrose.main, "__name__", "__main__"):
-        #     # with pytest.raises(SystemExit):
-        #     penrose.main.init()
+    #     # with mock.patch.object(penrose.main, "__name__", "__main__"):
+    #     #     # with pytest.raises(SystemExit):
+    #     #     penrose.main.init()
 
     def test_tile_init_colour(self):
         test_tile = Tile()
-        assert test_tile.fill_colour == [0,0,0,1]
-        assert test_tile.line_colour == [255,255,255,1]
+        assert test_tile.fill_colour == (0,0,0,1)
+        assert test_tile.line_colour == (255,255,255,1)
 
-        test_tile = Tile(fill_colour=[255,0,255,1])
-        assert test_tile.fill_colour == [255,0,255,1]
-        assert test_tile.line_colour == [255,255,255,1]
+        test_tile = Tile(fill_colour=(255,0,255,1))
+        assert test_tile.fill_colour == (255,0,255,1)
+        assert test_tile.line_colour == (255,255,255,1)
 
-        test_tile = Tile(line_colour=[255,0,255,1])
-        assert test_tile.fill_colour == [0,0,0,1]
-        assert test_tile.line_colour == [255,0,255,1]
+        test_tile = Tile(line_colour=(255,0,255,1))
+        assert test_tile.fill_colour == (0,0,0,1)
+        assert test_tile.line_colour == (255,0,255,1)
 
-        test_tile = Tile(line_colour=[255,0,255,1],fill_colour=[255,0,255,1])
-        assert test_tile.fill_colour == [255,0,255,1]
-        assert test_tile.line_colour == [255,0,255,1]
+        test_tile = Tile(line_colour=(255,0,255,1),fill_colour=(255,0,255,1))
+        assert test_tile.fill_colour == (255,0,255,1)
+        assert test_tile.line_colour == (255,0,255,1)
 
-        test_tile = Tile([255,255,255,1],[255,0,255,1])
-        assert test_tile.fill_colour == [255,255,255,1]
-        assert test_tile.line_colour == [255,0,255,1]
+        test_tile = Tile((255,255,255,1),(255,0,255,1))
+        assert test_tile.fill_colour == (255,255,255,1)
+        assert test_tile.line_colour == (255,0,255,1)
 
-        test_tile.fill_colour = [128,128,128,1]
-        test_tile.line_colour = [0,255,0,1]
+        test_tile.fill_colour = (128,128,128,1)
+        test_tile.line_colour = (0,255,0,1)
 
-        assert test_tile.fill_colour == [128,128,128,1]
-        assert test_tile.line_colour == [0,255,0,1]
+        assert test_tile.fill_colour == (128,128,128,1)
+        assert test_tile.line_colour == (0,255,0,1)
 
     def test_tile_init_sides(self):
         '''test init for number of sides'''
@@ -109,3 +109,13 @@ class TestPenroseTiles:
         test_tile.add_vertex()
         assert test_tile.angles == [108.0,108.0,108.0,108.0,108.0]
 
+
+    def test_update_vertices(self):
+        '''test update vertices'''
+        test_tile = Tile()
+        assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]
+
+        # test_tile.length = 100.0
+        # test_tile.sides = 3
+        # test_tile.update_vertices()
+        # assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]
