@@ -87,10 +87,12 @@ class Tile(Widget):
             self.vertices.append((0.0,0.0))
             v = (self.length,0) # x-axis
             for i in range(1,self.sides):
-                next_vertex = (math.cos(theta)*v[0] + math.sin(theta)*v[1] ,
-                               math.sin(theta)*v[0] - math.cos(theta)*v[1])
+                next_vertex = (math.cos(theta)*v[0] - math.sin(theta)*v[1] + self.vertices[i-1][0] ,
+                               math.sin(theta)*v[0] + math.cos(theta)*v[1] + self.vertices[i-1][1] ) 
                 self.vertices.append(next_vertex)
-                v = (self.vertices[i][0]-self.vertices[i-1][0],self.vertices[i][1]-self.vertices[i-1][1])
+                print(i,v,self.vertices)
+                v = (self.vertices[i-1][0]-self.vertices[i][0],self.vertices[i-1][1]-self.vertices[i][1])
+                
 
 
 
@@ -117,8 +119,8 @@ class Tile(Widget):
             # Rectangle(pos=self.pos,size=self.size)
             p = [sum(self.vertices,())]
             print(self.vertices)
-            # p.append(self.vertices[0])
-            # p.append(self.vertices[1])
+            p.append(self.vertices[0])
+            p.append(self.vertices[1])
             Color(self.fill_colour)
             Line(points=p)       
     

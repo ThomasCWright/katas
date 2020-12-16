@@ -31,7 +31,7 @@ class DartScreen(BoxLayout):
 
     def add_tile(self):
         # self.ids.scatter_layout.add_widget(Tile())
-        self.ids.scatter_layout.add_widget(Tile(sides=3))
+        self.ids.scatter_layout.add_widget(Tile(sides=8))
         pass
 
 
