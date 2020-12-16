@@ -115,9 +115,10 @@ class TestPenroseTiles:
     def test_update_vertices(self):
         '''test update vertices'''
         test_tile = Tile()
-        assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]
 
         test_tile.length = 100.0
         test_tile.sides = 3
         test_tile.update_vertices()
-        assert test_tile.vertices == [(0,0),(math.cos(math.radians(60))*test_tile.length,math.sin(math.radians(60))*test_tile.length),(0,100)]
+        assert sum(test_tile.vertices,()) == pytest.approx([0,0,math.cos(math.radians(60))*test_tile.length,math.sin(math.radians(60))*test_tile.length,100,0],abs=0.1)
+
+        # assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]

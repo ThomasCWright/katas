@@ -82,9 +82,16 @@ class Tile(Widget):
         default_vertices = [(0.0,0.0),(0.0,100.0),(100.0,100.0),(100.0,0.0)]
 
         if self.regular:
+            theta = math.radians(180-360/self.sides)
             self.vertices.clear()
-            for i in range(self.sides):
-                self.vertices.append(default_vertices[i%len(default_vertices)])
+            self.vertices.append((0.0,0.0))
+            v = (self.length,0) # x-axis
+            for i in range(1,self.sides):
+                next_vertex = (math.cos(theta)*v[0] + math.sin(theta)*v[1] ,
+                               math.sin(theta)*v[0] - math.cos(theta)*v[1])
+                self.vertices.append(next_vertex)
+                v = (self.vertices[i][0]-self.vertices[i-1][0],self.vertices[i][1]-self.vertices[i-1][1])
+
 
 
         # if self.regular:
