@@ -5,6 +5,8 @@ from penrose.penrose_tiles import Tile
 import pytest
 from pytest_mock import mock
 
+import math
+
 
 class TestPenroseTiles:
     '''
@@ -115,7 +117,7 @@ class TestPenroseTiles:
         test_tile = Tile()
         assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]
 
-        # test_tile.length = 100.0
-        # test_tile.sides = 3
-        # test_tile.update_vertices()
-        # assert test_tile.vertices == [(0,0),(0,100),(100,100),(100,0)]
+        test_tile.length = 100.0
+        test_tile.sides = 3
+        test_tile.update_vertices()
+        assert test_tile.vertices == [(0,0),(math.cos(math.radians(60))*test_tile.length,math.sin(math.radians(60))*test_tile.length),(0,100)]

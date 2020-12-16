@@ -28,6 +28,8 @@ class Tile(Widget):
         self.sides = sides
         self.length = length
         self.instance_num += 1
+        self.vertices = []
+        self.angles = []
         self.update()
 
     def add_side(self):
@@ -77,20 +79,28 @@ class Tile(Widget):
 
     def update_vertices(self):
         '''update coordinates of shape vertices'''
+        default_vertices = [(0.0,0.0),(0.0,100.0),(100.0,100.0),(100.0,0.0)]
+
         if self.regular:
-            self.vertices=[self.origin]
-            v = (self.length,0) # x-axis
+            self.vertices.clear()
+            for i in range(self.sides):
+                self.vertices.append(default_vertices[i%len(default_vertices)])
+
+
+        # if self.regular:
+        #     self.vertices=[self.origin]
+        #     v = (self.length,0) # x-axis
         
-        if self.regular:
-            for i in range(1,self.sides):
-                # theta = math.radians(i*(180-360/self.sides))
-                print(i,v,self.vertices)
-                theta = math.radians(180-360/self.sides)
-                next_vertex = ((v[0]*math.cos(theta) + v[1]*math.sin(theta)) + self.vertices[i-1][0],
-                               (v[0]*math.sin(theta) - v[1]*math.cos(theta)) + self.vertices[i-1][1])
-                self.vertices.append(next_vertex)
-                v = (self.vertices[i-1][0]-self.vertices[i][0],self.vertices[i-1][1]-self.vertices[i][1])
-                # self.vertices.append((self.vertices[i-1][0]+self.length*math.cos(theta),self.vertices[i-1][1]+self.length*math.sin(theta)))
+        # if self.regular:
+        #     for i in range(1,self.sides):
+        #         # theta = math.radians(i*(180-360/self.sides))
+        #         print(i,v,self.vertices)
+        #         theta = math.radians(180-360/self.sides)
+        #         next_vertex = ((v[0]*math.cos(theta) + v[1]*math.sin(theta)) + self.vertices[i-1][0],
+        #                        (v[0]*math.sin(theta) - v[1]*math.cos(theta)) + self.vertices[i-1][1])
+        #         self.vertices.append(next_vertex)
+        #         v = (self.vertices[i-1][0]-self.vertices[i][0],self.vertices[i-1][1]-self.vertices[i][1])
+        #         # self.vertices.append((self.vertices[i-1][0]+self.length*math.cos(theta),self.vertices[i-1][1]+self.length*math.sin(theta)))
                 
     def update_canvas(self):
         '''update canvas'''
