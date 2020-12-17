@@ -115,14 +115,14 @@ class Tile(Widget):
         '''update canvas'''
         self.canvas.clear()
         with self.canvas:
-            # Color(0,0,1,1)
-            # Rectangle(pos=self.pos,size=self.size)
             p = [sum(self.vertices,())]
             print(self.vertices)
             p.append(self.vertices[0])
             p.append(self.vertices[1])
             Color(self.fill_colour)
             Line(points=p)       
+            Color(0,0,1,1)
+            Rectangle(pos=self.pos,size=self.size)
     
     def update(self):
         '''update tile'''
