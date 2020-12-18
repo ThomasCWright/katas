@@ -9,4 +9,4 @@ Check out:
 - Over the wire
 4. [Penrose Tiles](https://github.com/ThomasCWright/katas/tree/Penrose_Tiles)
 5. Conway's game of life
-6. (Kaggle)[https://www.kaggle.com/]
+6. [Kaggle](https://www.kaggle.com/)
