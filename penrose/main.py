@@ -49,12 +49,13 @@ class DartScreen(BoxLayout):
         pass
 
     def mouse_pos(self, window, pos):
-        for k,v  in self.ids.items():
+        all_widgets=[]
+        for k,v in self.ids.items():
             if hasattr(v,'collide_point'):
                 if v.collide_point(*pos):
-                    self.ids.lab_status.text = f"{str(pos)}  {k}"
-                    return
-        self.ids.lab_status.text = f"{str(pos)}"
+                    # self.ids.lab_status.text = f"{str(pos)}  {k}"
+                    all_widgets.append(k)
+        self.ids.lab_status.text = f"{str(pos)} {all_widgets}"
         pass
 
 class PenroseApp(App):

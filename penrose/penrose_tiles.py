@@ -30,6 +30,7 @@ class Tile(Widget):
         self.instance_num += 1
         self.vertices = []
         self.angles = []
+        self.id=str(self.instance_num)
         self.update()
 
     def add_side(self):
