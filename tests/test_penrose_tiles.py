@@ -1,7 +1,7 @@
 import unittest
 
 # import penrose.main
-from penrose.penrose_tiles import Tile
+from penrose.penrose_tiles import Tile, TileShape
 import pytest
 from pytest_mock import mock
 from kivy.uix.widget import Widget
@@ -27,40 +27,40 @@ class TestPenroseTiles:
     #     #     penrose.main.init()
 
     def test_tile_init_colour(self):
-        test_tile = Tile()
+        test_tile = TileShape()
         assert test_tile.fill_colour == (0,0,0,1)
-        assert test_tile.line_colour == (255,255,255,1)
+        assert test_tile.line_colour == (1,1,1,1)
 
-        test_tile = Tile(fill_colour=(255,0,255,1))
-        assert test_tile.fill_colour == (255,0,255,1)
-        assert test_tile.line_colour == (255,255,255,1)
+        test_tile = TileShape(fill_colour=(1,0,1,1))
+        assert test_tile.fill_colour == (1,0,1,1)
+        assert test_tile.line_colour == (1,1,1,1)
 
-        test_tile = Tile(line_colour=(255,0,255,1))
+        test_tile = TileShape(line_colour=(1,0,1,1))
         assert test_tile.fill_colour == (0,0,0,1)
-        assert test_tile.line_colour == (255,0,255,1)
+        assert test_tile.line_colour == (1,0,1,1)
 
-        test_tile = Tile(line_colour=(255,0,255,1),fill_colour=(255,0,255,1))
-        assert test_tile.fill_colour == (255,0,255,1)
-        assert test_tile.line_colour == (255,0,255,1)
+        test_tile = TileShape(line_colour=(1,0,1,1),fill_colour=(1,0,1,1))
+        assert test_tile.fill_colour == (1,0,1,1)
+        assert test_tile.line_colour == (1,0,1,1)
 
-        test_tile = Tile((255,255,255,1),(255,0,255,1))
-        assert test_tile.fill_colour == (255,255,255,1)
-        assert test_tile.line_colour == (255,0,255,1)
+        test_tile = TileShape((1,1,1,1),(1,0,1,1))
+        assert test_tile.fill_colour == (1,1,1,1)
+        assert test_tile.line_colour == (1,0,1,1)
 
         test_tile.fill_colour = (128,128,128,1)
-        test_tile.line_colour = (0,255,0,1)
+        test_tile.line_colour = (0,1,0,1)
 
         assert test_tile.fill_colour == (128,128,128,1)
-        assert test_tile.line_colour == (0,255,0,1)
+        assert test_tile.line_colour == (0,1,0,1)
 
     def test_tile_init_sides(self):
         '''test init for number of sides'''
-        test_tile = Tile()
+        test_tile = TileShape()
         assert test_tile.sides == 4
 
     def test_tile_sides_add(self):
         '''test side add for number of sides'''
-        test_tile = Tile()
+        test_tile = TileShape()
     
         test_tile.add_side()
         assert test_tile.sides == 5
@@ -68,7 +68,7 @@ class TestPenroseTiles:
     def test_tile_sides_remove(self):
         '''test side remove for number of sides'''
 
-        test_tile = Tile()
+        test_tile = TileShape()
     
         test_tile.remove_side()
         assert test_tile.sides == 3
@@ -78,7 +78,7 @@ class TestPenroseTiles:
 
     def test_tile_vertices_add(self):
         '''test tile vertices'''
-        test_tile = Tile()
+        test_tile = TileShape()
         assert len(test_tile.vertices) == test_tile.sides
 
         test_tile.add_vertex()
@@ -86,7 +86,7 @@ class TestPenroseTiles:
 
     def test_tile_vertices_remove(self):
         '''test tile vertices'''
-        test_tile = Tile()
+        test_tile = TileShape()
         assert len(test_tile.vertices) == test_tile.sides
 
         test_tile.remove_vertex()
@@ -94,7 +94,7 @@ class TestPenroseTiles:
 
     def test_tile_change_vertex_at_index_to_position(self):
         '''test to change vertex'''
-        test_tile = Tile()
+        test_tile = TileShape()
         new_position=(0.1,0.1)
         index=0
         test_tile.change_vertex_at_index_to_position(index=index,new_position=new_position)
@@ -107,7 +107,7 @@ class TestPenroseTiles:
 
     def test_tile_internal_angle_at_vertex(self):
         '''test internal angle at vertex'''
-        test_tile = Tile()
+        test_tile = TileShape()
         assert test_tile.angles == [90.0,90.0,90.0,90.0]
 
         test_tile.add_vertex()
@@ -116,7 +116,7 @@ class TestPenroseTiles:
 
     def test_update_vertices(self):
         '''test update vertices'''
-        test_tile = Tile()
+        test_tile = TileShape()
 
         test_tile.length = 100.0
         test_tile.sides = 3
@@ -130,9 +130,11 @@ class TestPenroseTiles:
     def test_descendants(self):
         '''test decendants'''
 
-        test_tile = Tile()
+        result = str(Tile.instance_num + 1)
 
-        assert test_tile.descendants() == '1'
+        test_tile = TileShape()
+
+        assert test_tile.descendants() == result
 
 
     def test_tile_subclass_of(self):

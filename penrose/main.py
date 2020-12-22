@@ -2,7 +2,7 @@
 from kivy.app import App
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scatter import Scatter
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
@@ -17,7 +17,7 @@ kivy.require('2.0.0') # replace with your current kivy version !
 # from kivy.uix.label import Label
 # from kivy.uix.scatterlayout import ScatterLayout
 
-class DartScreen(BoxLayout):
+class DartScreen(FloatLayout):
 
     def __init__(self, **kwargs):
         super(DartScreen, self).__init__(**kwargs)
@@ -37,22 +37,22 @@ class DartScreen(BoxLayout):
         pass
 
     def add_tile(self):
-        a = Scatter()
-        a.do_scale = False
+        # a = Scatter()
+        # a.do_scale = False
         r_colour = self.random_colour()
-        a.add_widget(Tile(fill_colour=r_colour,line_colour=r_colour))
-        # a = Tile(fill_colour=r_colour,line_colour=r_colour)
+        # a.add_widget(Tile(fill_colour=r_colour,line_colour=r_colour))
+        a = Tile(fill_colour=r_colour,line_colour=r_colour)
         self.ids.scatter_layout.add_widget(a)
-        b = Scatter()
-        b.do_scale = False
+        # b = Scatter()
+        # b.do_scale = False
         r_colour = self.random_colour()
-        t2 = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
-        b.add_widget(t2)
-        b.size = t2.size
+        # t2 = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
+        # b.add_widget(t2)
+        # b.size = t2.size
+        b = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
         with b.canvas:
             Color(0,1,0,0.4)
             Rectangle(pos=self.pos,size=self.size)
-        # b = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
         self.ids.scatter_layout.add_widget(b)
         print(f"self.ids.scatter_layout.children: {self.ids.scatter_layout.children}")
         pass

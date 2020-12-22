@@ -2,27 +2,39 @@ import numpy
 import math
 from kivy.uix.widget import Widget
 from kivy.uix.scatter import Scatter
+from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
 from kivy.graphics import Canvas, Color, Rectangle, Line
 
-class Tile(Widget):
+class Tile(Scatter):
+    '''Enclosinf layout for Tiles'''
+    
+    instance_num = 0
+
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.do_scale = False
+        self.do_translation = True
+        self.do_rotation = True
+
+        self.add_widget(TileShape(**kwargs))
+
+class TileShape(Widget):
     '''
     class defining regular shaped primitive tiles
     '''
 
-    instance_num = 0
 
     def __init__(self,
-                 fill_colour=(1,1,1,1),
+                 fill_colour=(0,0,0,1),
                  line_colour=(1,1,1,1),
                  regular = True,
-                 origin=(0,0),
                  sides = 4,
-                 length = 100.0
-                 ):
+                 length = 100.0):
 
-        '''initialise Tile'''
-        super().__init__()
+        '''initialise Tile'''  
+        super(TileShape, self).__init__()
+
         self.regular = True
         # self.origin=(0,0)
         self.fill_colour=fill_colour
@@ -34,12 +46,11 @@ class Tile(Widget):
         self.vertices = []
         self.angles = []
         self.id=ObjectProperty(str(self.instance_num))
-        self.do_scale = False
-        self.do_translation = True
-        self.do_rotation = True
-        # self.update()
-        self.update_vertices()
-        self.update_canvas()
+        self.update()
+        # self.update_vertices()
+        # self.update_canvas()
+        
+
 
     def add_side(self):
         '''add side'''
@@ -113,9 +124,9 @@ class Tile(Widget):
     
     def update(self):
         '''update tile'''
-        # self.update_vertices()
-        # self.update_angles()
-        # self.update_canvas()
+        self.update_vertices()
+        self.update_angles()
+        self.update_canvas()
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):

@@ -12,6 +12,9 @@
             #     Rectangle:
             #         size: self.size
             #         pos: self.pos
+            #:import Window kivy.core.window
+            on_size:
+                size: root.size
         Button:
             id: add_tile
             text: 'Add Tile'
