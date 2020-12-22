@@ -1,7 +1,9 @@
 import numpy
 import math
 from kivy.uix.widget import Widget
-from kivy.graphics import *
+from kivy.uix.scatter import Scatter
+from kivy.properties import ObjectProperty
+from kivy.graphics import Canvas, Color, Rectangle, Line
 
 class Tile(Widget):
     '''
@@ -11,8 +13,8 @@ class Tile(Widget):
     instance_num = 0
 
     def __init__(self,
-                 fill_colour=(0,0,0,1),
-                 line_colour=(255,255,255,1),
+                 fill_colour=(1,1,1,1),
+                 line_colour=(1,1,1,1),
                  regular = True,
                  origin=(0,0),
                  sides = 4,
@@ -22,16 +24,22 @@ class Tile(Widget):
         '''initialise Tile'''
         super().__init__()
         self.regular = True
-        self.origin=(0,0)
+        # self.origin=(0,0)
         self.fill_colour=fill_colour
         self.line_colour=line_colour
         self.sides = sides
         self.length = length
-        self.instance_num += 1
+        Tile.instance_num += 1
+        self.instance_num = Tile.instance_num
         self.vertices = []
         self.angles = []
-        self.id=str(self.instance_num)
-        self.update()
+        self.id=ObjectProperty(str(self.instance_num))
+        self.do_scale = False
+        self.do_translation = True
+        self.do_rotation = True
+        # self.update()
+        self.update_vertices()
+        self.update_canvas()
 
     def add_side(self):
         '''add side'''
@@ -91,46 +99,39 @@ class Tile(Widget):
                 next_vertex = (math.cos(theta)*v[0] - math.sin(theta)*v[1] + self.vertices[i-1][0] ,
                                math.sin(theta)*v[0] + math.cos(theta)*v[1] + self.vertices[i-1][1] ) 
                 self.vertices.append(next_vertex)
-                print(i,v,self.vertices)
                 v = (self.vertices[i-1][0]-self.vertices[i][0],self.vertices[i-1][1]-self.vertices[i][1])
-                
-
-
-
-        # if self.regular:
-        #     self.vertices=[self.origin]
-        #     v = (self.length,0) # x-axis
-        
-        # if self.regular:
-        #     for i in range(1,self.sides):
-        #         # theta = math.radians(i*(180-360/self.sides))
-        #         print(i,v,self.vertices)
-        #         theta = math.radians(180-360/self.sides)
-        #         next_vertex = ((v[0]*math.cos(theta) + v[1]*math.sin(theta)) + self.vertices[i-1][0],
-        #                        (v[0]*math.sin(theta) - v[1]*math.cos(theta)) + self.vertices[i-1][1])
-        #         self.vertices.append(next_vertex)
-        #         v = (self.vertices[i-1][0]-self.vertices[i][0],self.vertices[i-1][1]-self.vertices[i][1])
-        #         # self.vertices.append((self.vertices[i-1][0]+self.length*math.cos(theta),self.vertices[i-1][1]+self.length*math.sin(theta)))
                 
     def update_canvas(self):
         '''update canvas'''
         self.canvas.clear()
-        with self.canvas:
+        with self.canvas.after:
+            Color(self.line_colour[0],self.line_colour[1],self.line_colour[2],1)
             p = [sum(self.vertices,())]
-            print(self.vertices)
-            p.append(self.vertices[0])
-            p.append(self.vertices[1])
-            Color(self.fill_colour)
-            Line(points=p)       
-            Color(0,0,1,1)
+            Line(points=p, close=True)       
+            Color(self.fill_colour[0],self.fill_colour[1],self.fill_colour[2],1)
             Rectangle(pos=self.pos,size=self.size)
     
     def update(self):
         '''update tile'''
-        self.update_vertices()
-        self.update_angles()
-        self.update_canvas()
+        # self.update_vertices()
+        # self.update_angles()
+        # self.update_canvas()
 
+    def on_touch_down(self, touch):
+        if self.collide_point(*touch.pos):
+            print(f"self.descendants: {self.descendants()} ")
+
+
+    def descendants(self,level=0):
+        '''returns string of descendants'''
+        list_of_children=""
+        
+        if self.children:
+            for child in self.children:
+                list_of_children += f"\n{'|'*(level != 0)}{'  '*level}{' '*(level > 1)}|--{child.descendants(level+1)}"
+            return f"{self.instance_num}{list_of_children}"
+        else:
+            return f"{self.instance_num}"
 
 
 

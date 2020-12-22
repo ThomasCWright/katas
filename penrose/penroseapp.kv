@@ -3,8 +3,15 @@
         id: float_layout
         ScatterLayout:
             id: scatter_layout
-            pos_hint: {'top': 1.0}
-            size_hint: 1, 0.9
+            # pos_hint: {'top': 1.0}
+            # size_hint: 1, 0.9
+            do_scale: True
+            # canvas:
+            #     Color:
+            #         rgba: 1,0,0,0.1
+            #     Rectangle:
+            #         size: self.size
+            #         pos: self.pos
         Button:
             id: add_tile
             text: 'Add Tile'

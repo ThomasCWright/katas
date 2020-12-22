@@ -4,6 +4,8 @@ import unittest
 from penrose.penrose_tiles import Tile
 import pytest
 from pytest_mock import mock
+from kivy.uix.widget import Widget
+from kivy.uix.scatter import Scatter
 
 import math
 
@@ -124,3 +126,18 @@ class TestPenroseTiles:
         test_tile.sides = 4
         test_tile.update_vertices()
         assert sum(test_tile.vertices,()) == pytest.approx([0,0,0,100,100,100,100,0],abs=1e-6)
+
+    def test_descendants(self):
+        '''test decendants'''
+
+        test_tile = Tile()
+
+        assert test_tile.descendants() == '1'
+
+
+    def test_tile_subclass_of(self):
+        
+        assert issubclass(Tile,Widget) 
+        assert issubclass(Tile,Scatter) 
+        
+ 

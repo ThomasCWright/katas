@@ -5,7 +5,9 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scatter import Scatter
 from kivy.core.window import Window
+from kivy.graphics import Color, Rectangle
 import kivy
+import random
 
 from penrose_tiles import Tile
 
@@ -36,12 +38,30 @@ class DartScreen(BoxLayout):
 
     def add_tile(self):
         a = Scatter()
-        a.add_widget(Tile())
+        a.do_scale = False
+        r_colour = self.random_colour()
+        a.add_widget(Tile(fill_colour=r_colour,line_colour=r_colour))
+        # a = Tile(fill_colour=r_colour,line_colour=r_colour)
         self.ids.scatter_layout.add_widget(a)
         b = Scatter()
-        b.add_widget(Tile(sides=8))
+        b.do_scale = False
+        r_colour = self.random_colour()
+        t2 = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
+        b.add_widget(t2)
+        b.size = t2.size
+        with b.canvas:
+            Color(0,1,0,0.4)
+            Rectangle(pos=self.pos,size=self.size)
+        # b = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
         self.ids.scatter_layout.add_widget(b)
+        print(f"self.ids.scatter_layout.children: {self.ids.scatter_layout.children}")
         pass
+
+    def random_colour(self):
+        rgba = random.choices(population=range(255),k=3)
+        rgba=list(map(lambda x: x/255,rgba))
+        rgba.append(0.1)
+        return tuple(rgba)
 
     def on_motion(self, etype, motionevent):
         # will receive all motion events.
