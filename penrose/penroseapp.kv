@@ -1,20 +1,13 @@
 <DartScreen>:
     FloatLayout:
         id: float_layout
-        ScatterLayout:
-            id: scatter_layout
-            # pos_hint: {'top': 1.0}
-            # size_hint: 1, 0.9
+        #:import TileLayout penrose_tiles
+        TileLayout:
+            id: tile_layout
             do_scale: True
-            # canvas:
-            #     Color:
-            #         rgba: 1,0,0,0.1
-            #     Rectangle:
-            #         size: self.size
-            #         pos: self.pos
-            #:import Window kivy.core.window
-            on_size:
-                size: root.size
+            # #:import Window kivy.core.window
+            # on_size:
+            #     size: root.size
         Button:
             id: add_tile
             text: 'Add Tile'

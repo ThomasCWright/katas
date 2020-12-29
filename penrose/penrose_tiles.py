@@ -2,9 +2,11 @@ import numpy
 import math
 from kivy.uix.widget import Widget
 from kivy.uix.scatter import Scatter
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scatterlayout import ScatterLayout
 from kivy.properties import ObjectProperty
-from kivy.graphics import Canvas, Color, Rectangle, Line
+from kivy.graphics import Canvas, Color, Rectangle, Line, Mesh
+from kivy.core.window import Window
+
 
 class Tile(Scatter):
     '''Enclosinf layout for Tiles'''
@@ -12,19 +14,38 @@ class Tile(Scatter):
     instance_num = 0
 
     def __init__(self, **kwargs):
-        super().__init__()
+        super(Tile,self).__init__()
         self.do_scale = False
         self.do_translation = True
         self.do_rotation = True
 
         self.add_widget(TileShape(**kwargs))
 
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, instance, value):
+        # self.rect.pos = instance.pos
+        # self.rect.size = instance.size
+        print(f"Scatter pos: {instance.pos}  size:{instance.size} value: {value}")
+
+
+    def descendants(self,level=0):
+        '''returns string of descendants'''
+        list_of_children=""
+        
+        if self.children:
+            for child in self.children:
+                if child.descendants:
+                    list_of_children += f"\n{'|'*(level != 0)}{'  '*level}{' '*(level > 1)}|--{child.descendants(level+1)}"
+                    
+            return f"Tile: {list_of_children}"
+        else:
+            return f"Tile"
+
 class TileShape(Widget):
     '''
     class defining regular shaped primitive tiles
     '''
-
-
     def __init__(self,
                  fill_colour=(0,0,0,1),
                  line_colour=(1,1,1,1),
@@ -34,6 +55,7 @@ class TileShape(Widget):
 
         '''initialise Tile'''  
         super(TileShape, self).__init__()
+        Window.bind(mouse_pos=self.mouse_pos)
 
         self.regular = True
         # self.origin=(0,0)
@@ -46,12 +68,11 @@ class TileShape(Widget):
         self.vertices = []
         self.angles = []
         self.id=ObjectProperty(str(self.instance_num))
+        self.highlight = False
         self.update()
         # self.update_vertices()
         # self.update_canvas()
         
-
-
     def add_side(self):
         '''add side'''
         self.sides += 1
@@ -115,12 +136,22 @@ class TileShape(Widget):
     def update_canvas(self):
         '''update canvas'''
         self.canvas.clear()
-        with self.canvas.after:
+        with self.canvas.before:
             Color(self.line_colour[0],self.line_colour[1],self.line_colour[2],1)
+            mesh_vertices = []
+            mesh_indices=[]
+            for i,tp in enumerate(self.vertices):
+                mesh_vertices.extend([tp[0], tp[1], 0, 1])
+                mesh_indices.append(i)
+
+
             p = [sum(self.vertices,())]
-            Line(points=p, close=True)       
-            Color(self.fill_colour[0],self.fill_colour[1],self.fill_colour[2],1)
-            Rectangle(pos=self.pos,size=self.size)
+            if self.highlight:
+                Color(1,0,0,1)
+            self.mesh = Mesh(vertices=mesh_vertices,indices=mesh_indices,mode='triangle_fan')
+            # Line(points=p, close=True)       
+            # Color(self.fill_colour[0],self.fill_colour[1],self.fill_colour[2],1)
+            # Rectangle(pos=self.pos,size=self.size)
     
     def update(self):
         '''update tile'''
@@ -128,10 +159,12 @@ class TileShape(Widget):
         self.update_angles()
         self.update_canvas()
 
-    def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos):
-            print(f"self.descendants: {self.descendants()} ")
-
+    def mouse_pos(self, window, pos):
+        if self.collide_point(*pos):
+            self.highlight = True
+        else:
+            self.highlight = False
+        # print(f"Highlight: {self.highlight}")
 
     def descendants(self,level=0):
         '''returns string of descendants'''
@@ -144,5 +177,33 @@ class TileShape(Widget):
         else:
             return f"{self.instance_num}"
 
+class TileLayout(ScatterLayout):
+    '''custom layout for tiles'''
 
+    def __init__(self,**kwargs):
+        super(TileLayout,self).__init__(**kwargs)
+        # Window.bind(mouse_pos=self.mouse_pos)
 
+        # with self.canvas.before:
+        #     Color(0, 1, 0, 0.1)  # green; colors range from 0-1 instead of 0-255
+        #     self.rect = Rectangle(size=self.size, pos=self.pos)
+
+    def descendants(self,level=0):
+        '''returns string of descendants'''
+        list_of_children=""
+        
+        if self.children:
+            for child in self.children:
+                if hasattr(child,'descendants'):
+                    list_of_children += f"\n{'|'*(level != 0)}{'  '*level}{' '*(level > 1)}|--{child.descendants(level+1)}"
+                else:
+                    list_of_children += f"\n{'|'*(level != 0)}{'  '*level}{' '*(level > 1)}|--{child.children}"
+                    
+            return f"TileLayout: {list_of_children}"
+        else:
+            return f"TileLayout"
+
+    def mouse_pos(self, window, pos):
+        # if self.collide_point(*pos):
+        # print(f"{self.descendants(level=0)}")
+        pass

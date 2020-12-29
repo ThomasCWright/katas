@@ -37,24 +37,13 @@ class DartScreen(FloatLayout):
         pass
 
     def add_tile(self):
-        # a = Scatter()
-        # a.do_scale = False
         r_colour = self.random_colour()
-        # a.add_widget(Tile(fill_colour=r_colour,line_colour=r_colour))
         a = Tile(fill_colour=r_colour,line_colour=r_colour)
-        self.ids.scatter_layout.add_widget(a)
-        # b = Scatter()
-        # b.do_scale = False
+        self.ids.tile_layout.add_widget(a)
         r_colour = self.random_colour()
-        # t2 = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
-        # b.add_widget(t2)
-        # b.size = t2.size
         b = Tile(sides=8,fill_colour=r_colour,line_colour=r_colour)
-        with b.canvas:
-            Color(0,1,0,0.4)
-            Rectangle(pos=self.pos,size=self.size)
-        self.ids.scatter_layout.add_widget(b)
-        print(f"self.ids.scatter_layout.children: {self.ids.scatter_layout.children}")
+        self.ids.tile_layout.add_widget(b)
+        print(f"self.ids.tile_layout.children: {self.ids.tile_layout.children}")
         pass
 
     def random_colour(self):
