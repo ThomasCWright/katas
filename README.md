@@ -10,3 +10,4 @@ Check out:
 4. [Penrose Tiles](https://github.com/ThomasCWright/katas/tree/Penrose_Tiles)
 5. Conway's game of life
 6. [Kaggle](https://www.kaggle.com/)
+7. [Cyber-dojo](https://cyber-dojo.org/kata/edit/tvX0YD)
